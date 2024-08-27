@@ -27,6 +27,9 @@ export const AuthScreen = () => {
             <div className="md:w-96">
                 {state === "signIn" ? <SignInForm setState={setState} /> : <SignUpForm setState={setState} />}
             </div>
+            <div className="font-mono text-[8px] absolute bottom-0 p-1">
+                &#91;© {new Date().getFullYear()} mitism.com&#93;
+            </div>
         </div>
     )
 }
