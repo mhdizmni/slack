@@ -67,10 +67,20 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "dots": {
+          to: { opacity: "0", transform: 'scale(0.9)' },
+        },
+        "blink": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0" },
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        // Dots Loader Animation
+        "dots": "dots .3s ease-in-out alternate infinite",
+        "blink": "blink .3s ease-in-out alternate infinite",
       },
     },
   },
