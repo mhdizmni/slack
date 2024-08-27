@@ -24,6 +24,7 @@ export const SignUpForm = ({ setState }: SignUpFormProps) => {
     const [isPending, setTransition] = useTransition();
     const { signIn } = useAuthActions();
 
+    const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -41,7 +42,7 @@ export const SignUpForm = ({ setState }: SignUpFormProps) => {
         }
         
         setTransition(async () => {
-            await signIn("password", { email, password, flow: "signUp" })
+            await signIn("password", { name, email, password, flow: "signUp" })
             .catch(() => {
                 setError("Invalid email or password");
             });
@@ -101,6 +102,13 @@ export const SignUpForm = ({ setState }: SignUpFormProps) => {
                         {error}
                     </Notice>
                 )}
+                <Input
+                    placeholder="Full Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    disabled={isPending}
+                    required
+                />
                 <Input
                     type="email"
                     placeholder="Email"
