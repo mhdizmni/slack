@@ -26,6 +26,7 @@ export const WorkspaceSwither = () => {
     const { data: workspaces, isLoading: workspacesLoading } = useGetWorkspaces();
 
     if (workspaceLoading) {
+        setOpen(false)
         return (
             <div className="size-9 rounded-md flex items-center justify-center bg-border">
                 <Spinner className="size-5" />
@@ -34,7 +35,8 @@ export const WorkspaceSwither = () => {
     }
 
     if (!workspace) {
-        return null;
+        setOpen(true)
+        return <div />;
     }
 
     const filteredWorkspaces = workspaces?.filter((workspace) => workspace._id !== workspaceId);
@@ -45,15 +47,15 @@ export const WorkspaceSwither = () => {
                 <Button
                     className="h-9 w-9"
                 >
-                    {workspace.name[0].toUpperCase()}
+                    {workspace?.name[0].toUpperCase()}
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" side="bottom" className="w-80 rounded-2xl p-0 py-1" alignOffset={-12} sideOffset={10}>
                 <DropdownMenuItem
                     className="cursor-pointer hover:bg-accent flex-col items-start"
-                    onClick={() => router.push(`/workspace/${workspace._id}`)}
+                    onClick={() => router.push(`/workspace/${workspace?._id}`)}
                 >
-                    <p className="font-bold text-lg">{workspace.name}</p>
+                    <p className="font-bold text-lg">{workspace?.name}</p>
                     <p className="text-muted-foreground text-xs">Current Workspace</p>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
