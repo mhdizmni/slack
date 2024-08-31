@@ -16,16 +16,20 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Skeleton } from "@/components/ui/skeleton";
 import { LogOut } from "lucide-react";
+import { Dots } from "@/components/loaders/dots";
+import { useRouter } from "next/navigation";
 
 export const UserButton = () => {
+    const router = useRouter();
     const { data: user, isLoading } = useCurrentUser();
     const { signOut } = useAuthActions();
 
     if (isLoading) {
         return (
-            <Skeleton className="size-9 rounded-lg" />
+            <div className="size-9 rounded-lg flex items-center justify-center bg-accent/50">
+                <Dots className="size-1 bg-white" />
+            </div>
         )
     }
 
@@ -43,11 +47,12 @@ export const UserButton = () => {
                     <AvatarFallback>{name!.charAt(0).toUpperCase()}</AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="center" side="right">
+            <DropdownMenuContent align="center" side="right" className="p-0 py-1">
                 <DropdownMenuLabel>{name}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-                    onClick={() => signOut()}
+                    className="cursor-pointer"
+                    onClick={async () => await signOut()}
                 >
                     <LogOut className="size-4 mr-2" />
                     Log out
