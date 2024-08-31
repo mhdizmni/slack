@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/resizable"
 import { WorkspaceSidebar } from "./workspace-sidebar";
 import { useEffect, useState } from "react";
+import { Dots } from "@/components/loaders/dots";
 
 export default function WorkspaceLayout({
   children,
@@ -31,7 +32,7 @@ export default function WorkspaceLayout({
         <Sidebar />
         <div className="bg-[#3f0e40] w-full h-full">
           <ResizablePanelGroup direction="horizontal" autoSaveId="ws-rszbl" className="bg-background rounded-lg" style={{ height: styleSize, width: styleSize }}>
-            {mounted && (
+            {mounted ? (
               <>
                 <ResizablePanel
                   minSize={10}
@@ -48,6 +49,10 @@ export default function WorkspaceLayout({
                   {children}
                 </ResizablePanel>
               </>
+            ) : (
+              <div className="w-full flex items-center justify-center">
+                <Dots className="bg-[#3f0e40]" />
+              </div>
             )}
           </ResizablePanelGroup>
         </div>
