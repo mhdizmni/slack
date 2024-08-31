@@ -5,12 +5,11 @@ import { useCreateWorkspaceModal } from "@/features/workspaces/store/use-create-
 import { useGetWorkspaces } from "@/features/workspaces/api/use-get-workspaces";
 import { useRouter } from "next/navigation";
 
-import { UserButton } from "@/features/auth/components/user-button";
+import { Dots } from "@/components/loaders/dots";
 
 export default function Home() {
   const [open, setOpen] = useCreateWorkspaceModal();
   const { data, isLoading } = useGetWorkspaces();
-
   const router = useRouter();
 
   const workspaceId = useMemo(() => data?.[0]?._id, [data])
@@ -25,11 +24,11 @@ export default function Home() {
     } else if (!open) {
       setOpen(true);
     }
-  }, [isLoading, workspaceId, open, setOpen, router])
+  }, [isLoading, workspaceId, open, setOpen, router]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
-      <UserButton />
+    <main className="flex h-full flex-col items-center justify-center p-24 bg-[#3f0e40]">
+      <Dots className="bg-white" />
     </main>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useCreateWorkspaceModal } from "../store/use-create-workspace-modal";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCreateWorkspace } from "../api/use-create-workspace";
 
 import {
@@ -13,11 +13,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Dots } from "@/components/loaders/dots";
 import { toast } from "sonner";
+import Image from "next/image";
 
 export const CreateWorkspaceModal = () => {
     const [open, setOpen] = useCreateWorkspaceModal();
 
     const router = useRouter();
+    const pathname = usePathname();
 
     const [name, setName] = useState<string>("");
     const { mutate, data, isPending, isError, isSettled, isSuccess } = useCreateWorkspace();
@@ -34,7 +36,8 @@ export const CreateWorkspaceModal = () => {
             onSuccess(id) {
                 router.push(`/workspace/${id}`);
                 setOpen(false);
-                toast.success("Workspace was created successfully!")
+                toast.success("Workspace was created successfully!");
+                setName("")
             },
         })
     }
@@ -43,6 +46,15 @@ export const CreateWorkspaceModal = () => {
         <Dialog open={open} onOpenChange={handleClose}>
             <DialogContent>
                 <DialogHeader>
+                    {pathname === "/" && (
+                        <Image
+                            src="/logo.svg"
+                            alt="Slack"
+                            height={14}
+                            width={55}
+                            className="mb-2"
+                        />
+                    )}
                     <DialogTitle>Create a new workspace</DialogTitle>
                 </DialogHeader>
                 <form className="space-y-2" onSubmit={handleSubmit}>
@@ -53,9 +65,10 @@ export const CreateWorkspaceModal = () => {
                         minLength={3}
                         disabled={isPending}
                     />
-                    <div className="flex justify-end">
+                    <div className="flex justify-end w-full">
                         <Button
                             type="submit"
+                            className="w-1/3 h-8"
                             disabled={isPending || name.length < 3}
                         >
                             {isPending ? <Dots /> : "Create"}

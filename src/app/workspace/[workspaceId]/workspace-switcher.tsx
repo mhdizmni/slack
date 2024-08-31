@@ -1,14 +1,12 @@
-import { Spinner } from "@/components/loaders/spinner";
+import { Dots } from "@/components/loaders/dots";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Skeleton } from "@/components/ui/skeleton";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
 import { useGetWorkspaces } from "@/features/workspaces/api/use-get-workspaces";
 import { useCreateWorkspaceModal } from "@/features/workspaces/store/use-create-workspace-modal";
@@ -25,18 +23,18 @@ export const WorkspaceSwither = () => {
     const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({ id: workspaceId });
     const { data: workspaces, isLoading: workspacesLoading } = useGetWorkspaces();
 
-    if (workspaceLoading) {
+    if (workspaceLoading || workspacesLoading) {
         setOpen(false)
         return (
-            <div className="size-9 rounded-md flex items-center justify-center bg-border">
-                <Spinner className="size-5" />
+            <div className="size-9 rounded-lg flex items-center justify-center bg-accent/50">
+                <Dots className="size-1 bg-white" />
             </div>
         )
     }
 
     if (!workspace) {
-        setOpen(true)
-        return <div />;
+        router.push("/")
+        return;
     }
 
     const filteredWorkspaces = workspaces?.filter((workspace) => workspace._id !== workspaceId);
@@ -45,7 +43,8 @@ export const WorkspaceSwither = () => {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button
-                    className="h-9 w-9"
+                    variant="secondary"
+                    className="h-9 w-9 rounded-lg"
                 >
                     {workspace?.name[0].toUpperCase()}
                 </Button>
@@ -61,6 +60,7 @@ export const WorkspaceSwither = () => {
                 <DropdownMenuSeparator />
                 {filteredWorkspaces?.map((workspace, i) => (
                     <DropdownMenuItem
+                        key={i}
                         className="cursor-pointer gap-1 hover:bg-accent"
                         onClick={() => router.push(`/workspace/${workspace._id}`)}
                     >
