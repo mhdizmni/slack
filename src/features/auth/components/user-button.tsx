@@ -52,7 +52,10 @@ export const UserButton = () => {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                     className="cursor-pointer"
-                    onClick={async () => await signOut()}
+                    onClick={async () => {
+                        await signOut()
+                        .then(() => router.push("/"))
+                    }}
                 >
                     <LogOut className="size-4 mr-2" />
                     Log out
