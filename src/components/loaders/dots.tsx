@@ -17,7 +17,8 @@ export const Dots = ({
                     <div
                         key={i}
                         className={cn(
-                            className ? className : "size-2 bg-current"
+                            "bg-current size-2",
+                            !!className && className
                         )}
                         style={animationDelayStyle}
                     />
