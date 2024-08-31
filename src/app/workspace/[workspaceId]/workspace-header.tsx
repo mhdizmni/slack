@@ -30,7 +30,7 @@ export const WorkspaceHeader = ({
                 <DropdownMenuTrigger asChild>
                     <Button
                         variant="transparent"
-                        className="justify-start h-7 p-1 font-bold text-lg truncate"
+                        className="justify-start h-7 p-1 font-bold text-lg truncate uppercase"
                     >
                         <span className="truncate">{workspace.name}</span>
                         <ChevronDown className="size-4 shrink-0" />
