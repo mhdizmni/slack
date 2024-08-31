@@ -3,6 +3,7 @@ import { Nunito } from "next/font/google";
 
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import { ConvexClientProvider } from "@/components/convex-client-provider";
+import { JotaiProvider } from "@/components/jotai-provider";
 
 import { Modals } from "@/components/modals";
 import { Toaster } from "@/components/ui/sonner";
@@ -26,9 +27,11 @@ export default function RootLayout({
       <html lang="en">
         <body className={nunito.className}>
           <ConvexClientProvider>
-            <Modals />
-            <Toaster />
-            {children}
+            <JotaiProvider>
+              <Modals />
+              <Toaster />
+              {children}
+            </JotaiProvider>
           </ConvexClientProvider>
         </body>
       </html>
