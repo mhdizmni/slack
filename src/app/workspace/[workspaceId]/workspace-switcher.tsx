@@ -51,7 +51,7 @@ export const WorkspaceSwither = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" side="bottom" className="w-80 rounded-2xl p-0 py-1" alignOffset={-12} sideOffset={10}>
                 <DropdownMenuItem
-                    className="cursor-pointer hover:bg-accent flex-col items-start"
+                    className="flex-col items-start"
                     onClick={() => router.push(`/workspace/${workspace?._id}`)}
                 >
                     <p className="font-bold text-lg">{workspace?.name}</p>
@@ -61,7 +61,7 @@ export const WorkspaceSwither = () => {
                 {filteredWorkspaces?.map((workspace, i) => (
                     <DropdownMenuItem
                         key={i}
-                        className="cursor-pointer gap-1 hover:bg-accent"
+                        className="gap-1"
                         onClick={() => router.push(`/workspace/${workspace._id}`)}
                     >
                         <div className="size-9 rounded-md flex items-center justify-center bg-primary text-primary-foreground">
@@ -71,7 +71,7 @@ export const WorkspaceSwither = () => {
                     </DropdownMenuItem>
                 ))}
                 <DropdownMenuItem
-                    className="cursor-pointer gap-1 hover:bg-accent"
+                    className="gap-1"
                     onClick={() => setOpen(true)}
                 >
                     <div className="size-9 rounded-md flex items-center justify-center bg-border">
