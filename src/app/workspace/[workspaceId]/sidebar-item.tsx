@@ -17,7 +17,7 @@ const sidebarItemVariants = cva(
         variants: {
             variant: {
                 default: "text-accent",
-                active: "!bg-accent text-[#522653]"
+                active: "!bg-accent/75 text-[#522653]"
             }
         },
         defaultVariants: {
@@ -52,20 +52,20 @@ export const SidebarItem = ({
         >
             <Link href={`/workspace/${workspaceId}/${id}`}>
                 {name ? (
-                    <Avatar className="rounded size-5">
+                    <Avatar className="rounded size-5 shrink-0">
                         <AvatarImage className="rounded" src={image || ""} alt={name} />
-                        <AvatarFallback className="rounded">{name.charAt(0).toUpperCase()}</AvatarFallback>
+                        <AvatarFallback className="rounded text-primary">{name.charAt(0).toUpperCase()}</AvatarFallback>
                     </Avatar>
                 ) : (
                     <>
                         {Icon ? (
-                            <Icon className="size-4" />
+                            <Icon className="size-4 shrink-0" />
                         ) : (
-                            <Hash className="size-4" />
+                            <Hash className="size-4 shrink-0" />
                         )}
                     </>
                 )}
-                <span className="text-sm">{label}</span>
+                <span className="text-sm truncate">{label}</span>
             </Link>
         </Button>
     )

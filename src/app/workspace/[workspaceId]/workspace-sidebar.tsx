@@ -85,7 +85,7 @@ export const WorkspaceSidebar = () => {
                     className="justify-start h-7 gap-2"
                     onClick={() => setOpen(true)}
                 >
-                    <Plus className="size-4 bg-accent/25 rounded" />
+                    <Plus className="size-4 bg-accent/25 rounded shrink-0" />
                     Add channels
                 </Button>
             </WorkspaceSection>
@@ -111,7 +111,7 @@ export const WorkspaceSidebar = () => {
                     variant="transparent"
                     className="justify-start h-7 gap-2"
                 >
-                    <Plus className="size-4 bg-accent/25 rounded" />
+                    <Plus className="size-4 bg-accent/25 rounded shrink-0" />
                     Add coworkers
                 </Button>
             </WorkspaceSection>

@@ -1,4 +1,3 @@
-import { Hint } from "@/components/hint";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -37,7 +36,7 @@ export const InviteModal = ({
     );
 
     const handleCopy = () => {
-        const link = `${window.location.origin}/join/${joinCode}`;
+        const link = `${window.location.origin}/join/${workspaceId}?jc=${joinCode}`;
 
         navigator.clipboard.writeText(link)
         .then(() => {
@@ -71,16 +70,14 @@ export const InviteModal = ({
                         <div className="text-5xl font-bold font-mono uppercase">
                             {joinCode}
                         </div>
-                        <Hint label="Click to copy the link">
-                            <Button
-                                variant="link"
-                                className="gap-1 h-7"
-                                onClick={handleCopy}
-                            >
-                                Copy Invite Link
-                                <Copy className="size-3" />
-                            </Button>
-                        </Hint>
+                        <Button
+                            variant="link"
+                            className="gap-1 h-7"
+                            onClick={handleCopy}
+                        >
+                            Copy Invite Link
+                            <Copy className="size-3" />
+                        </Button>
                     </div>
                     <div className="flex justify-start px-2">
                         <Button

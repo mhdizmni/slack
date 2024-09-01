@@ -32,7 +32,7 @@ export const WorkspaceSection = ({
                             on && "rotate-90"
                         )} />
                     </Button>
-                    <span className="text-sm font-semibold">{label}</span>
+                    <span className="text-sm font-semibold truncate">{label}</span>
                 </div>
                 {onNew && (
                     <Hint label={hint || "New"}>
