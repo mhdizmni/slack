@@ -10,6 +10,7 @@ import { WorkspaceSection } from "./workspace-section";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle, MessageCircle, Plus, SendHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
 
 export const WorkspaceSidebar = () => {
     const workspaceId = useWorkspaceId();
@@ -19,6 +20,8 @@ export const WorkspaceSidebar = () => {
     const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({ id: workspaceId });
     const { data: channels, isLoading: channelsLoading } = useGetChannels({ workspaceId });
     const { data: members, isLoading: membersLoading } = useGetMembers({ workspaceId });
+
+    const [_open, setOpen] = useCreateChannelModal();
 
     if (memberLoading || workspaceLoading) {
         return (
@@ -80,6 +83,7 @@ export const WorkspaceSidebar = () => {
                 <Button
                     variant="transparent"
                     className="justify-start h-7 gap-2"
+                    onClick={() => setOpen(true)}
                 >
                     <Plus className="size-4 bg-accent/25 rounded" />
                     Add channels
