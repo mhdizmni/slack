@@ -86,7 +86,7 @@ export const WorkspaceSidebar = () => {
                     onClick={() => setOpen(true)}
                 >
                     <Plus className="size-4 bg-accent/25 rounded shrink-0" />
-                    Add channels
+                    <span className="text-sm truncate">Add channels</span>
                 </Button>
             </WorkspaceSection>
             <WorkspaceSection
@@ -112,7 +112,7 @@ export const WorkspaceSidebar = () => {
                     className="justify-start h-7 gap-2"
                 >
                     <Plus className="size-4 bg-accent/25 rounded shrink-0" />
-                    Add coworkers
+                    <span className="text-sm truncate">Add coworkers</span>
                 </Button>
             </WorkspaceSection>
         </div>

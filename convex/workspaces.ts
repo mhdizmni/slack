@@ -21,7 +21,7 @@ export const newJoinCode = mutation({
         if (!userId) {
             throw new Error("Unauthorized");
         }
-        
+
         const member = await ctx.db
             .query("members")
             .withIndex("by_workspace_id_user_id", (q) => q.eq("workspaceId", args.workspaceId).eq("userId", userId))
@@ -38,10 +38,10 @@ export const newJoinCode = mutation({
 });
 
 export const join = mutation({
-    args: { 
+    args: {
         workspaceId: v.id("workspaces"),
         joinCode: v.string()
-     },
+    },
     handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) {
@@ -77,6 +77,50 @@ export const join = mutation({
     },
 });
 
+export const leave = mutation({
+    args: {
+        workspaceId: v.id("workspaces"),
+        userId: v.optional(v.id("users"))
+    },
+    handler: async (ctx, args) => {
+        const userId = await getAuthUserId(ctx);
+        if (!userId) {
+            throw new Error("Unauthorized");
+        }
+
+        const user_id = args.userId ? args.userId : userId;
+
+        const member = await ctx.db
+            .query("members")
+            .withIndex("by_workspace_id_user_id", (q) => q.eq("workspaceId", args.workspaceId).eq("userId", user_id))
+            .unique();
+
+        if (!member) {
+            throw new Error("Unauthorized");
+        }
+
+        const isAdmin = member?.role === "admin";
+
+        if (args.userId && !isAdmin) {
+            throw new Error("Unauthorized");
+        }
+
+
+        const [members] = await Promise.all([
+            ctx.db
+                .query("members")
+                .withIndex("by_user_id", (q) => q.eq("userId", user_id))
+                .collect(),
+        ]);
+
+        for (const member of members) {
+            await ctx.db.delete(member._id);
+        }
+
+        return args.workspaceId;
+    },
+});
+
 export const create = mutation({
     args: {
         name: v.string(),
@@ -86,7 +130,7 @@ export const create = mutation({
         if (!userId) {
             throw new Error("Unauthorized");
         }
-        
+
         const joinCode = generateCode();
 
         const workspaceId = await ctx.db.insert("workspaces", {
@@ -119,9 +163,9 @@ export const get = query({
         }
 
         const members = await ctx.db
-        .query("members")
-        .withIndex("by_user_id", (q) => q.eq("userId", userId))
-        .collect();
+            .query("members")
+            .withIndex("by_user_id", (q) => q.eq("userId", userId))
+            .collect();
 
         const workspaceIds = members.map((member) => member.workspaceId);
 
@@ -173,9 +217,9 @@ export const getById = query({
         }
 
         const member = await ctx.db
-        .query("members")
-        .withIndex("by_workspace_id_user_id", (q) => q.eq("workspaceId", args.id).eq("userId", userId))
-        .unique();
+            .query("members")
+            .withIndex("by_workspace_id_user_id", (q) => q.eq("workspaceId", args.id).eq("userId", userId))
+            .unique();
 
         if (!member) {
             return null;
@@ -197,9 +241,9 @@ export const update = mutation({
         }
 
         const member = await ctx.db
-        .query("members")
-        .withIndex("by_workspace_id_user_id", (q) => q.eq("workspaceId", args.id).eq("userId", userId))
-        .unique();
+            .query("members")
+            .withIndex("by_workspace_id_user_id", (q) => q.eq("workspaceId", args.id).eq("userId", userId))
+            .unique();
 
         if (!member || member.role !== "admin") {
             throw new Error("Unauthorized");
@@ -222,9 +266,9 @@ export const remove = mutation({
         }
 
         const member = await ctx.db
-        .query("members")
-        .withIndex("by_workspace_id_user_id", (q) => q.eq("workspaceId", args.id).eq("userId", userId))
-        .unique();
+            .query("members")
+            .withIndex("by_workspace_id_user_id", (q) => q.eq("workspaceId", args.id).eq("userId", userId))
+            .unique();
 
         if (!member || member.role !== "admin") {
             throw new Error("Unauthorized");
