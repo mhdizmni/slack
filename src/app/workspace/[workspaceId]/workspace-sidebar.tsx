@@ -1,15 +1,24 @@
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { WorkspaceHeader } from "./workspace-header"
+import { useChatId } from "@/hooks/use-chat-id";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
+import { useGetChannels } from "@/features/channels/api/use-get-channels";
+import { useGetMembers } from "@/features/members/api/use-get-members";
+import { WorkspaceHeader } from "./workspace-header"
+import { SidebarItem } from "./sidebar-item";
+import { WorkspaceSection } from "./workspace-section";
 import { Skeleton } from "@/components/ui/skeleton";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, MessageCircle, Plus, SendHorizontal } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const WorkspaceSidebar = () => {
     const workspaceId = useWorkspaceId();
+    const chatId = useChatId();
 
     const { data: member, isLoading: memberLoading } = useCurrentMember({ workspaceId });
     const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({ id: workspaceId });
+    const { data: channels, isLoading: channelsLoading } = useGetChannels({ workspaceId });
+    const { data: members, isLoading: membersLoading } = useGetMembers({ workspaceId });
 
     if (memberLoading || workspaceLoading) {
         return (
@@ -38,8 +47,70 @@ export const WorkspaceSidebar = () => {
     }
 
     return (
-        <div className="flex flex-col gap-1 h-full text-white">
+        <div className="flex flex-col gap-4 h-full text-white">
             <WorkspaceHeader workspace={workspace} isAdmin={member.role === "admin"} />
+            <div className="flex flex-col gap-1">
+                <SidebarItem
+                    id="threads"
+                    label="Threads"
+                    icon={MessageCircle}
+                    variant={chatId === "threads" ? "active" : undefined}
+                />
+                <SidebarItem
+                    id="drafts"
+                    label="Drafts & sent"
+                    icon={SendHorizontal}
+                    variant={chatId === "drafts" ? "active" : undefined}
+                />
+            </div>
+            <WorkspaceSection
+                label="Channels"
+            >
+                {channelsLoading && Array.from({ length: 4 }).map((_, i) => (
+                    <Skeleton key={i} className="h-7" />
+                ))}
+                {channels?.map((item) => (
+                    <SidebarItem
+                        key={item._id}
+                        id={item._id}
+                        label={item.name}
+                        variant={chatId === item._id ? "active" : undefined}
+                    />
+                ))}
+                <Button
+                    variant="transparent"
+                    className="justify-start h-7 gap-2"
+                >
+                    <Plus className="size-4 bg-accent/25 rounded" />
+                    Add channels
+                </Button>
+            </WorkspaceSection>
+            <WorkspaceSection
+                label="Direct messages"
+                onNew={() => {}}
+                hint="Open a direct message"
+            >
+                {membersLoading && Array.from({ length: 3 }).map((_, i) => (
+                    <Skeleton key={i} className="h-7" />
+                ))}
+                {members?.map((item) => (
+                    <SidebarItem
+                        key={item.user._id}
+                        id={item.user._id}
+                        label={item.user.name || "User"}
+                        name={item.user.name || "User"}
+                        image={item.user.image}
+                        variant={chatId === item.user._id ? "active" : undefined}
+                    />
+                ))}
+                <Button
+                    variant="transparent"
+                    className="justify-start h-7 gap-2"
+                >
+                    <Plus className="size-4 bg-accent/25 rounded" />
+                    Add coworkers
+                </Button>
+            </WorkspaceSection>
         </div>
     )
 }
