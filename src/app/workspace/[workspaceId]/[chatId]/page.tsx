@@ -11,10 +11,13 @@ import { ChannelHeader } from "./channel-header";
 import { UserHeader } from "./user-header";
 import { ChatInput } from "./chat-input";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { useCurrentMember } from "@/features/members/api/use-current-member";
 
 const ChatPage = () => {
     const workspaceId = useWorkspaceId();
     const chatId = useChatId();
+
+    const { data: member } = useCurrentMember({ workspaceId });
 
     const { data: user, isLoading: loadingUser } = useGetUserInfo({ userId: chatId, workspaceId })
     const { data: channel, isLoading: loadingChannel } = useGetChannel({ channelId: chatId })
@@ -34,7 +37,7 @@ const ChatPage = () => {
                     <Skeleton className="h-9 w-2/3" />
                 </div>
                 <div className="p-4 pt-0">
-                    <Skeleton className="h-36 rounded-lg" />
+                    <Skeleton className="h-32 rounded-lg" />
                 </div>
             </div>
         )
@@ -49,6 +52,10 @@ const ChatPage = () => {
         )
     }
 
+    let placeholder = !!user && `Message ${user.name}`;
+    placeholder = !!user && chatId === member?.userId ? `Jot something down` : placeholder;
+    placeholder = !!channel ? `Message #${channel.name}` : placeholder;
+
     return (
         <div className="h-full flex flex-col gap-3">
             {user && (
@@ -58,7 +65,9 @@ const ChatPage = () => {
                 <ChannelHeader channel={channel} />
             )}
             <div className="flex-1" />
-            <ChatInput />
+            <ChatInput
+                placeholder={placeholder || ""}
+            />
         </div>
     );
 }
