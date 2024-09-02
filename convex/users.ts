@@ -17,6 +17,7 @@ export const current = query({
 export const getInfoById = query({
     args: {
         userId: v.string(),
+        workspaceId: v.id("workspaces"),
     },
     handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
@@ -32,20 +33,19 @@ export const getInfoById = query({
 
         const currentMember = await ctx.db
             .query("members")
-            .withIndex("by_user_id", (q) => q.eq("userId", userId))
-            .collect();
+            .withIndex("by_workspace_id_user_id", (q) => q.eq("workspaceId", args.workspaceId).eq("userId", user._id))
+            .unique();
 
-        if (currentMember.length === 0) {
+        if (!currentMember) {
             return null;
         }
 
         const requestedMember = await ctx.db
             .query("members")
-            .withIndex("by_workspace_id_user_id", (q) => q.eq("workspaceId", currentMember[0].workspaceId).eq("userId", user._id))
-            .collect();
+            .withIndex("by_workspace_id_user_id", (q) => q.eq("workspaceId", args.workspaceId).eq("userId", user._id))
+            .unique();
 
-
-        if (requestedMember.length === 0) {
+        if (!requestedMember) {
             return null;
         }
 

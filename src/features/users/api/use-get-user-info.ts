@@ -4,6 +4,7 @@ import { Id } from "../../../../convex/_generated/dataModel";
 
 interface UseGetUserInfoProps {
     userId: string;
+    workspaceId: Id<"workspaces">;
 }
 
 export type UserInfo = {
@@ -12,8 +13,8 @@ export type UserInfo = {
     image?: string
 }
 
-export const useGetUserInfo = ({ userId }: UseGetUserInfoProps) => {
-    const data = useQuery(api.users.getInfoById, { userId });
+export const useGetUserInfo = ({ userId, workspaceId }: UseGetUserInfoProps) => {
+    const data = useQuery(api.users.getInfoById, { userId, workspaceId });
     const isLoading = data === undefined;
 
     return { data, isLoading };

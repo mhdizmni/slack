@@ -9,11 +9,14 @@ import { AlertTriangle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChannelHeader } from "./channel-header";
 import { UserHeader } from "./user-header";
+import { ChatInput } from "./chat-input";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
 
 const ChatPage = () => {
+    const workspaceId = useWorkspaceId();
     const chatId = useChatId();
 
-    const { data: user, isLoading: loadingUser } = useGetUserInfo({ userId: chatId })
+    const { data: user, isLoading: loadingUser } = useGetUserInfo({ userId: chatId, workspaceId })
     const { data: channel, isLoading: loadingChannel } = useGetChannel({ channelId: chatId })
 
     if (loadingChannel || loadingUser) {
@@ -31,7 +34,7 @@ const ChatPage = () => {
                     <Skeleton className="h-9 w-2/3" />
                 </div>
                 <div className="p-4 pt-0">
-                <Skeleton className="h-36" />
+                    <Skeleton className="h-36 rounded-lg" />
                 </div>
             </div>
         )
@@ -47,15 +50,17 @@ const ChatPage = () => {
     }
 
     return (
-        <div className="h-full flex">
+        <div className="h-full flex flex-col gap-3">
             {user && (
                 <UserHeader user={user} />
             )}
             {channel && (
                 <ChannelHeader channel={channel} />
             )}
+            <div className="flex-1" />
+            <ChatInput />
         </div>
     );
 }
- 
+
 export default ChatPage;
