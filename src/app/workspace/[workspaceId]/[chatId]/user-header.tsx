@@ -15,7 +15,7 @@ export const UserHeader = ({
     user
 }: UserHeaderProps) => {
     return (
-        <div className="flex items-start justify-between gap-1 p-4 w-full h-16 border-b">
+        <div className="flex items-start justify-between gap-1 p-4 h-16 border-b">
             <Button
                 variant="ghost"
                 className="justify-start h-7 p-1 font-bold text-lg truncate"

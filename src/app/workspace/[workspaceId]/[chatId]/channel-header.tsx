@@ -85,7 +85,7 @@ export const ChannelHeader = ({
     }
 
     return (
-        <div className="flex items-start justify-between gap-1 p-4 w-full h-16 border-b">
+        <div className="flex items-start justify-between gap-1 p-4 h-16 border-b">
             <ConfirmationDialog />
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
