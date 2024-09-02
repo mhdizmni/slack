@@ -51,7 +51,7 @@ export const CreateChannelModal = () => {
                     <DialogTitle>Create a new channel</DialogTitle>
                 </DialogHeader>
                 <form className="space-y-2" onSubmit={handleSubmit}>
-                    <div className="flex items-center ring-ring rounded-md focus-within:ring-2 focus-within:ring-offset-2">
+                    <div className="flex items-center ring-ring rounded-md border focus-within:ring-2 focus-within:ring-offset-2">
                         <Hash className="size-5" />
                         <Input
                             placeholder="Channel Name e.g. 'rooftop'"

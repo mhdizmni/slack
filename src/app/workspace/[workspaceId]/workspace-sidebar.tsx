@@ -11,10 +11,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle, MessageCircle, Plus, SendHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
+import { InviteModal } from "./invite-modal";
+import { useState } from "react";
 
 export const WorkspaceSidebar = () => {
     const workspaceId = useWorkspaceId();
     const chatId = useChatId();
+
+    const [inviteOpen, setInviteOpen] = useState<boolean>(false);
 
     const { data: member, isLoading: memberLoading } = useCurrentMember({ workspaceId });
     const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({ id: workspaceId });
@@ -51,6 +55,7 @@ export const WorkspaceSidebar = () => {
 
     return (
         <div className="flex flex-col gap-4 h-full text-white">
+            <InviteModal open={inviteOpen} setOpen={setInviteOpen} name={workspace.name} joinCode={workspace.joinCode} />
             <WorkspaceHeader workspace={workspace} isAdmin={member.role === "admin"} />
             <div className="flex flex-col gap-1">
                 <SidebarItem
@@ -110,6 +115,7 @@ export const WorkspaceSidebar = () => {
                 <Button
                     variant="transparent"
                     className="justify-start h-7 gap-2"
+                    onClick={() => setInviteOpen(true)}
                 >
                     <Plus className="size-4 bg-accent/25 rounded shrink-0" />
                     <span className="text-sm truncate">Add coworkers</span>
