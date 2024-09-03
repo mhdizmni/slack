@@ -1,0 +1,19 @@
+em-emoji-picker {
+    --background-rgb: 1, 1, 1, 0.5;
+    --border-radius: 0px;
+    --category-icon-size: 20px;
+    --color-border-over: rgba(0, 0, 0, 0.1);
+    --color-border: rgba(0, 0, 0, 0.05);
+    --font-size: 14px;
+    --rgb-accent: 0, 0, 0, 0.75;
+    --rgb-background: 1, 1, 1, 0;
+    --rgb-color: 0, 0, 0;
+    --rgb-input: 1, 1, 1, 0;
+    --shadow: 5px 5px 15px -8px black;
+
+    height: 50vh;
+    min-height: 400px;
+    max-height: 800px;
+    width: 100vw;
+    max-width: 360px;
+}

@@ -31,14 +31,14 @@ export const WorkspaceSidebar = () => {
         return (
             <div className="flex flex-col gap-2 h-full">
                 <div className="flex items-center justify-between">
-                    <Skeleton className="h-7 w-1/2" />
+                    <Skeleton className="h-7 w-1/2 bg-background/30" />
                     <div className="flex items-center gap-1">
-                        <Skeleton className="size-7" />
-                        <Skeleton className="size-7" />
+                        <Skeleton className="size-7 bg-background/30" />
+                        <Skeleton className="size-7 bg-background/30" />
                     </div>
                 </div>
                 {Array.from({ length: 7 }).map((_, i) => (
-                    <Skeleton key={i} className="h-7" />
+                    <Skeleton key={i} className="h-7 bg-background/30" />
                 ))}
             </div>
         )

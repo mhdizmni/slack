@@ -11,6 +11,8 @@
   "dependencies": {
     "@auth/core": "^0.34.2",
     "@convex-dev/auth": "^0.0.61",
+    "@emoji-mart/data": "^1.2.1",
+    "@emoji-mart/react": "^1.1.1",
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -45,6 +47,7 @@
     "convex": "^1.14.4",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.2.0",
+    "emoji-mart": "^5.6.0",
     "input-otp": "^1.2.4",
     "jotai": "^2.9.3",
     "lucide-react": "^0.436.0",

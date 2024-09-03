@@ -56,6 +56,9 @@ const ChatPage = () => {
     placeholder = !!user && chatId === member?.userId ? `Jot something down` : placeholder;
     placeholder = !!channel ? `Message #${channel.name}` : placeholder;
 
+    let chatType = !!user && "conversation";
+    chatType = !!channel ? "channel" : chatType;
+
     return (
         <div className="h-full flex flex-col gap-3">
             {user && (
@@ -67,6 +70,7 @@ const ChatPage = () => {
             <div className="flex-1" />
             <ChatInput
                 placeholder={placeholder || ""}
+                type={chatType as any}
             />
         </div>
     );
