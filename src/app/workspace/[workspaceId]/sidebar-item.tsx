@@ -10,6 +10,8 @@ import {
     AvatarImage,
 } from "@/components/ui/avatar"
 import Link from "next/link"
+import { useCurrentUser } from "@/features/auth/api/use-current-user"
+import { Badge } from "@/components/ui/badge"
 
 const sidebarItemVariants = cva(
     "justify-start h-7 gap-2",
@@ -43,7 +45,9 @@ export const SidebarItem = ({
     image,
     name
 }: SidebarItemProps) => {
-    const workspaceId = useWorkspaceId()
+    const workspaceId = useWorkspaceId();
+    const { data: user } = useCurrentUser();
+
     return (
         <Button
             variant="transparent"
@@ -66,6 +70,9 @@ export const SidebarItem = ({
                     </>
                 )}
                 <span className="text-sm truncate">{label}</span>
+                {user?._id === id && (
+                    <Badge className="text-xs p-0.5 px-1 rounded leading-[12px] scale-75 bg-[#3f0e40]">you</Badge>
+                )}
             </Link>
         </Button>
     )
